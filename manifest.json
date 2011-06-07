@@ -1,6 +1,10 @@
 {
     "name": "Extended keyboard navigation for Tumblr",
     "version": "1.0",
+    "icons": {
+        "48": "icons/48.png",
+        "128": "icons/128.png"
+    },
     "permissions": [
         "http://*.tumblr.com/*"
     ],
