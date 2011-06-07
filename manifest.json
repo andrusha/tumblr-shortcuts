@@ -1,0 +1,13 @@
+{
+    "name": "Extended keyboard navigation for Tumblr",
+    "version": "1.0",
+    "permissions": [
+        "http://*.tumblr.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["http://*.tumblr.com/*"],
+            "js": ["content_script.js"]
+        }
+    ]
+}
