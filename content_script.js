@@ -1,6 +1,7 @@
-function clickElement(elem) {
+function clickElement(elem, ctrl) {
+    var ctrl = ctrl || false;
     var evt = document.createEvent("MouseEvents");
-    evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, ctrl, false, false, false, 0, null);
 
     elem.dispatchEvent(evt);
 }
@@ -29,6 +30,13 @@ function reblog(post_id) {
     }
 }
 
+function view(post_id) {
+    var permalink = 'permalink_' + post_id.substring(5),
+        elem = document.getElementById(permalink);
+    
+    clickElement(elem, true);
+}
+
 function hasClass(elem, cls) {
     return elem.className && elem.className.match(new RegExp('\\b'+cls+'\\b', 'im'));
 }
@@ -51,10 +59,10 @@ window.addEventListener("keydown", function (e) {
     if(!e)
         e = window.event;
 
-    //76 = l, 82 = r
+    //76 = l, 82 = r, 86 = v
     var code=e.charCode?e.charCode:e.keyCode;
     if(!e.shiftKey&&!e.ctrlKey&&!e.altKey&&!e.metaKey &&
-        [76, 82].indexOf(code) > -1) {
+        [76, 82, 86].indexOf(code) > -1) {
 
         var positions = getPosts(),
             current_position = document.body.scrollTop + 7;
@@ -63,10 +71,13 @@ window.addEventListener("keydown", function (e) {
             if (current_position >= positions[i][1] &&
                 current_position <= positions[i][1] + positions[i][2]) {
                 var post_id = positions[i][0];
-                if (code == 76) {
-                    return like(post_id);
-                } else if (code == 82) {
-                    return reblog(post_id);
+                switch (code) {
+                    case 76:
+                        return like(post_id);
+                    case 82:
+                        return reblog(post_id);
+                    case 86:
+                        return view(post_id);
                 }
             }
         }
