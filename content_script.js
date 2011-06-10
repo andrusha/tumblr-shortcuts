@@ -37,6 +37,12 @@ function view(post_id) {
     clickElement(elem, true);
 }
 
+function confirmReblog() {
+    var elem = document.getElementById('save_button');
+
+    clickElement(elem);
+}
+
 function hasClass(elem, cls) {
     return elem.className && elem.className.match(new RegExp('\\b'+cls+'\\b', 'im'));
 }
@@ -81,5 +87,9 @@ window.addEventListener("keydown", function (e) {
                 }
             }
         }
+    }
+
+    if (code == 13 && e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
+        confirmReblog();
     }
 });
