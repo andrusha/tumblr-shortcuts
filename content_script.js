@@ -43,6 +43,12 @@ function confirmReblog() {
     clickElement(elem);
 }
 
+function cancelReblog() {
+    var elem = document.getElementById('cancel_button');
+
+    clickElement(elem);
+}
+
 function hasClass(elem, cls) {
     return elem.className && elem.className.match(new RegExp('\\b'+cls+'\\b', 'im'));
 }
@@ -65,9 +71,9 @@ window.addEventListener("keydown", function (e) {
     if(!e)
         e = window.event;
 
-    //76 = l, 82 = r, 86 = v
+    //76 = l, 82 = r, 86 = v, 13 = enter, 27 = escape
     var code=e.charCode?e.charCode:e.keyCode;
-    if(!e.shiftKey&&!e.ctrlKey&&!e.altKey&&!e.metaKey &&
+    if(!e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey &&
         [76, 82, 86].indexOf(code) > -1) {
 
         var positions = getPosts(),
@@ -87,9 +93,9 @@ window.addEventListener("keydown", function (e) {
                 }
             }
         }
-    }
-
-    if (code == 13 && e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
+    } else if (code == 13 && e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
         confirmReblog();
+    } else if (code == 27 && !e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
+        cancelReblog();
     }
 });
