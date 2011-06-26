@@ -69,12 +69,7 @@ function getPosts() {
     return positions;
 }
 
-window.addEventListener("keydown", function (e) {
-    if(!e)
-        e = window.event;
-
-    //76 = l, 82 = r, 86 = v, 13 = enter, 27 = escape
-    var code=e.charCode?e.charCode:e.keyCode;
+function keyOnDashboard(e, code) {
     if(!e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey &&
         [76, 82, 86].indexOf(code) > -1 &&
         !(e.target instanceof HTMLTextAreaElement) &&
@@ -98,9 +93,27 @@ window.addEventListener("keydown", function (e) {
                 }
             }
         }
-    } else if (code == 13 && e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
-        confirmReblog();
+    }
+}
+
+function keyOnReblog(e, code) {
+    if (code == 13 && e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
+        return confirmReblog();
     } else if (code == 27 && !e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
-        cancelReblog();
+        return cancelReblog();
+    }
+}
+
+window.addEventListener("keydown", function (e) {
+    if(!e)
+        e = window.event;
+
+    //76 = l, 82 = r, 86 = v, 13 = enter, 27 = escape
+    var code = e.charCode ? e.charCode : e.keyCode,
+        loc = window.location.href.toLowerCase();
+    if (loc.indexOf('/reblog/') !== -1) {
+        return keyOnReblog(e, code);
+    } else if(loc.indexOf('/dashboard') !== -1) {
+        return keyOnDashboard(e, code);
     }
 });
