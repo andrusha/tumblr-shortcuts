@@ -40,13 +40,15 @@ function view(post_id) {
 function confirmReblog() {
     var elem = document.getElementById('save_button');
 
-    clickElement(elem);
+    if (elem)
+        clickElement(elem);
 }
 
 function cancelReblog() {
     var elem = document.getElementById('cancel_button');
 
-    clickElement(elem);
+    if (elem)
+        clickElement(elem);
 }
 
 function hasClass(elem, cls) {
