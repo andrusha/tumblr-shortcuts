@@ -126,7 +126,7 @@ window.addEventListener("keydown", function (e) {
         loc = window.location.href.toLowerCase();
     if (loc.indexOf('/reblog/') !== -1) {
         return keyOnReblog(e, code);
-    } else if(loc.indexOf('/dashboard') !== -1) {
+    } else if (loc.indexOf('/dashboard') !== -1) {
         return keyOnDashboard(e, code);
     }
 });
