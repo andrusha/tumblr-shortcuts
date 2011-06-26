@@ -1,4 +1,7 @@
 function clickElement(elem, ctrl) {
+    if (!elem)
+        return;
+
     var ctrl = ctrl || false;
     var evt = document.createEvent("MouseEvents");
     evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, ctrl, false, false, false, 0, null);
@@ -40,15 +43,21 @@ function view(post_id) {
 function confirmReblog() {
     var elem = document.getElementById('save_button');
 
-    if (elem)
-        clickElement(elem);
+    clickElement(elem);
 }
 
 function cancelReblog() {
     var elem = document.getElementById('cancel_button');
 
-    if (elem)
-        clickElement(elem);
+    clickElement(elem);
+}
+
+function sendReply(elem) {
+    // id == reply_field_[0-9]+
+    var reply_id = 'reply_button_' + elem.id.substring(12),
+        elem = document.getElementById(reply_id);
+
+    clickElement(elem);
 }
 
 function hasClass(elem, cls) {
@@ -93,6 +102,10 @@ function keyOnDashboard(e, code) {
                 }
             }
         }
+    } else if (code == 13 && e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey &&
+               (e.target instanceof HTMLTextAreaElement) &&
+               (hasClass(e.target, 'reply_text'))) {
+        sendReply(e.target);
     }
 }
 
