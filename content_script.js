@@ -74,7 +74,10 @@ window.addEventListener("keydown", function (e) {
     //76 = l, 82 = r, 86 = v, 13 = enter, 27 = escape
     var code=e.charCode?e.charCode:e.keyCode;
     if(!e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey &&
-        [76, 82, 86].indexOf(code) > -1) {
+        [76, 82, 86].indexOf(code) > -1 &&
+        !(e.target instanceof HTMLTextAreaElement) &&
+        !(e.target instanceof HTMLInputElement)) {
+        // Accept keys only if it was pushed without modificators and not in input element
 
         var positions = getPosts(),
             current_position = document.body.scrollTop + 7;
