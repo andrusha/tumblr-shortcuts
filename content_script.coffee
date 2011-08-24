@@ -15,6 +15,7 @@ btn =
     r: 82
     v: 86
     q: 81
+    p: 80
     enter: 13
     escape: 27
 
@@ -38,28 +39,33 @@ changeSelected = (elem, index) ->
 
     elem.dispatchEvent(evt)
 
-reblog = (post_id, new_tab = false) ->
+getReblogLink = (post_id) ->
     elem = $(post_id)
     controls = elem.getElementsByClassName("post_controls")[0]
     links = controls.getElementsByTagName("a")
 
     for a in links
         if a.href?.match 'reblog'
-            return clickElement(a, new_tab)
+            return a
+
+reblog = (post_id, new_tab = false) ->
+    return clickElement(getReblogLink(post_id), new_tab)
+
+page = (post_id) ->
+    el = getReblogLink(post_id)
+    link = decodeURIComponent(el.href.match(/redirect_to=.*/)[0].substring('redirect_to='.length))
+    window.location.replace(link)
 
 like = (post_id) ->
-    #post_id == post_[0-9]*
-    like_id = 'like_button_' + post_id.substring(5)
+    like_id = 'like_button_' + post_id.substring('post_'.length)
     clickElement($(like_id))
 
 view = (post_id) ->
-    # id == view_[0-9]+
-    permalink = 'permalink_' + post_id.substring(5)
+    permalink = 'permalink_' + post_id.substring('view_'.length)
     clickElement($(permalink), true)
 
 sendReply = (elem) ->
-    #id == reply_field_[0-9]+
-    reply_id = 'reply_button_' + elem.id.substring(12)
+    reply_id = 'reply_button_' + elem.id.substring('reply_field_'.length)
     clickElement($(reply_id))
 
 confirmReblog = -> clickElement($('save_button'))
@@ -86,13 +92,14 @@ getCurPost = ->
 keyOnDashboard = (e, code) ->
     el = e.target
 
-    if [btn.l, btn.r, btn.v].indexOf(code) > -1 and not inputField(el)
+    if [btn.l, btn.r, btn.v, btn.p].indexOf(code) > -1 and not inputField(el)
         post_id = getCurPost()
         if noModifiers(e)
             switch code
                 when btn.l then like(post_id)
                 when btn.r then reblog(post_id)
                 when btn.v then view(post_id)
+                when btn.p then page(post_id)
         else if altModifier(e) and code == btn.r
             reblog(post_id, true)
     else if code == btn.enter and ctrlModifier(e) and inputField(el) and hasClass(el, 'reply_text')
