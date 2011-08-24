@@ -17,9 +17,9 @@ reblog = (post_id) ->
     controls = elem.getElementsByClassName("post_controls")[0]
     links = controls.getElementsByTagName("a")
 
-    for link in links
+    for a in links
         if a.href?.match 'reblog'
-            return clickElement link
+            return clickElement a
 
 like = (post_id) ->
     #post_id == post_[0-9]*
