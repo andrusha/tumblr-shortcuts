@@ -55,7 +55,6 @@ class Tumblr
         return unless elem?
 
         elem.selectedIndex = index
-
         evt = document.createEvent("Event")
         evt.initEvent('change', true, false)
         elem.dispatchEvent(evt)
@@ -95,6 +94,11 @@ class Tumblr
 
     queuePost: => @_changeSelected $('post_state'), 1
 
+    changeBlog: => 
+        elem = $('channel_id')
+        idx = if elem.selectedIndex < elem.length - 1 then elem.selectedIndex + 1 else 0
+        @_changeSelected elem, idx
+
 curPost = ->
     pos = document.body.scrollTop + 7 
     posts = $("posts").childNodes
@@ -117,7 +121,9 @@ if loc.indexOf('/dashboard') != -1
         'ctrl+enter:input': (e) -> tumblr.sendReply e.target
 else if loc.indexOf('/reblog/') != -1
     shortcuts.add 
+        'b':            tumblr.changeBlog
+        'alt+b':        -> tumblr.changeBlog(); tumblr.confirmReblog()
         'q':            tumblr.queuePost
+        'alt+q':        -> tumblr.queuePost(); tumblr.confirmReblog()
         'escape':       tumblr.cancelReblog
         'ctrl+enter':   tumblr.confirmReblog
-        'ctrl+q':       -> tumblr.queuePost(); tumblr.confirmReblog()

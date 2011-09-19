@@ -69,6 +69,7 @@
   })();
   Tumblr = (function() {
     function Tumblr() {
+      this.changeBlog = __bind(this.changeBlog, this);
       this.queuePost = __bind(this.queuePost, this);
       this.cancelReblog = __bind(this.cancelReblog, this);
       this.confirmReblog = __bind(this.confirmReblog, this);
@@ -148,6 +149,12 @@
     Tumblr.prototype.queuePost = function() {
       return this._changeSelected($('post_state'), 1);
     };
+    Tumblr.prototype.changeBlog = function() {
+      var elem, idx;
+      elem = $('channel_id');
+      idx = elem.selectedIndex < elem.length - 1 ? elem.selectedIndex + 1 : 0;
+      return this._changeSelected(elem, idx);
+    };
     return Tumblr;
   })();
   curPost = function() {
@@ -189,13 +196,18 @@
     });
   } else if (loc.indexOf('/reblog/') !== -1) {
     shortcuts.add({
+      'b': tumblr.changeBlog,
+      'alt+b': function() {
+        tumblr.changeBlog();
+        return tumblr.confirmReblog();
+      },
       'q': tumblr.queuePost,
-      'escape': tumblr.cancelReblog,
-      'ctrl+enter': tumblr.confirmReblog,
-      'ctrl+q': function() {
+      'alt+q': function() {
         tumblr.queuePost();
         return tumblr.confirmReblog();
-      }
+      },
+      'escape': tumblr.cancelReblog,
+      'ctrl+enter': tumblr.confirmReblog
     });
   }
 }).call(this);
