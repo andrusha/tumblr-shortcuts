@@ -1,18 +1,19 @@
 {
-    "name": "Extended keyboard navigation for Tumblr",
-    "description": "Access Tumblr functions from keyboard",
-    "version": "1.4",
+    "name": "Tumblr Shortcuts",
+    "description": "Access Tumblr functions from the keyboard",
+    "version": "1.5",
     "icons": {
         "48": "48.png",
         "128": "128.png"
     },
     "permissions": [
-        "http://*.tumblr.com/*"
+        "http://tumblr.com/*", "http://www.tumblr.com/*"
     ],
     "content_scripts": [
         {
-            "matches": ["http://*.tumblr.com/*"],
-            "js": ["content_script.js"]
+            "matches": ["http://tumblr.com/dashboard*", "http://www.tumblr.com/dashboard*",
+                        "http://tumblr.com/reblog*", "http://www.tumblr.com/reblog*"],
+            "js": ["tumblr_shortcuts.js"]
         }
     ]
 }
