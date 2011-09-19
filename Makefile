@@ -9,7 +9,7 @@ all:
 	mv tumblr_shortcuts.compiled.js tumblr_shortcuts.js
 
 	echo "Cleaning old version"
-	rm tumblr_shortcuts.zip
+	rm -f tumblr_shortcuts.zip
 
 	echo "Compressing extension"
-	zip tumblr_shorcuts.zip tumblr_shortcuts.js manifest.json 48.png 128.png
+	zip tumblr_shortcuts.zip tumblr_shortcuts.js manifest.json 48.png 128.png
