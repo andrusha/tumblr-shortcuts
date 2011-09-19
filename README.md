@@ -17,7 +17,7 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 * b - switch blogs
 * alt + b - switch blog & publish
 
-## Legacy Default Tumblr shortcuts
+## Legacy Tumblr shortcuts
 * j - next post
 * k - previous post
 
