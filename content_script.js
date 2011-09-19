@@ -1,6 +1,201 @@
-var g=null;
-(function(){var d,o,p,q,e,j,h,r,s,k,l,m,t,u,v,i,w,x,n,y,z;d=function(a){return document.getElementById(a)};l=function(a,c){var b;return(b=a.className)!=g?b.match(RegExp("\\b"+c+"\\b","im")):void 0};i=function(a){return!a.ctrlKey&&!a.shiftKey&&!a.altKey&&!a.metaKey};h=function(a){return a.ctrlKey&&!a.shiftKey&&!a.altKey&&!a.metaKey};o=function(a){return!a.ctrlKey&&!a.shiftKey&&a.altKey&&!a.metaKey};m=function(a){return a instanceof HTMLTextAreaElement||a instanceof HTMLInputElement};e=function(a,c){var b;
-c==g&&(c=!1);if(a)return b=document.createEvent("MouseEvents"),b.initMouseEvent("click",!0,!0,window,0,0,0,0,0,c,!1,!1,!1,0,g),a.dispatchEvent(b)};q=function(a,c){var b;if(a)a.selectedIndex=c,b=document.createEvent("Event"),b.initEvent("change",!0,!1),a.dispatchEvent(b)};k=function(a){var c,b,f,A;c=d(a).getElementsByClassName("post_controls")[0].getElementsByTagName("a");for(b=0,f=c.length;b<f;b++)if(a=c[b],(A=a.href)!=g&&A.match("reblog"))return a};n=function(a,c){c==g&&(c=!1);return e(k(a),c)};
-w=function(a){a=k(a);a=decodeURIComponent(a.href.match(/redirect_to=.*/)[0].substring(12));return window.location.replace(a)};v=function(a){return e(d("like_button_"+a.substring(5)))};z=function(a){return e(d("permalink_"+a.substring(5)),!0)};y=function(a){return e(d("reply_button_"+a.id.substring(12)))};j=function(){return e(d("save_button"))};p=function(){return e(d("cancel_button"))};x=function(){q(d("post_state"),1)};s=function(){var a,c,b;c=function(a){return{id:a.id,top:a.offsetTop,height:a.offsetHeight}};
-b=d("posts").childNodes;return function(){var f,d,e;e=[];for(f=0,d=b.length;f<d;f++)a=b[f],l(a,"post")&&e.push(c(a));return e}()};r=function(){var a,c,b,d,e;a=document.body.scrollTop+7;e=s();for(b=0,d=e.length;b<d;b++)if(c=e[b],a>=c.top&&a<=c.top+c.height)return c.id};t=function(a,c){var b;b=a.target;if([76,82,86,80].indexOf(c)>-1&&!m(b))if(b=r(),i(a))switch(c){case 76:return v(b);case 82:return n(b);case 86:return z(b);case 80:return w(b)}else{if(o(a)&&c===82)return n(b,!0)}else if(c===13&&h(a)&&
-m(b)&&l(b,"reply_text"))return y(b)};u=function(a,c){if(c===13&&h(a))return j();else if(c===27&&i(a))return p();else if(c===81&&(i(a)||h(a)))if(x(),h(a))return j()};window.addEventListener("keydown",function(a){var c,b;if(a==g)a=window.event;c=a.charCode?a.charCode:a.keyCode;b=window.location.href.toLowerCase();if(b.indexOf("/reblog/")!==-1)return u(a,c);else if(b.indexOf("/dashboard")!==-1)return t(a,c)})}).call(this);
+(function() {
+  var $, Shortcuts, Tumblr, curPost, hasClass, loc, shortcuts, tumblr;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  $ = function(id) {
+    return document.getElementById(id);
+  };
+  hasClass = function(elem, cls) {
+    var _ref;
+    return (_ref = elem.className) != null ? _ref.match(new RegExp('\\b' + cls + '\\b', 'im')) : void 0;
+  };
+  Shortcuts = (function() {
+    function Shortcuts() {
+      this._interceptor = __bind(this._interceptor, this);      this._mapping = {};
+      this._lookup = {
+        enter: 13,
+        escape: 27
+      };
+      window.addEventListener("keydown", this._interceptor);
+    }
+    Shortcuts.prototype.add = function(shortcut, func) {
+      var f, s, _results;
+      if (func == null) {
+        _results = [];
+        for (s in shortcut) {
+          f = shortcut[s];
+          _results.push(this._add(s, f));
+        }
+        return _results;
+      } else {
+        return this._add(shortcut, func);
+      }
+    };
+    Shortcuts.prototype._add = function(shortcut, func) {
+      var code, inp, key, mod, _, _ref;
+      _ref = shortcut.match(/((ctrl|alt|meta|shift)\+)?([a-z0-9]+)(:input)?/i), _ = _ref[0], _ = _ref[1], mod = _ref[2], key = _ref[3], inp = _ref[4];
+      code = key.length === 1 ? key.toUpperCase().charCodeAt(0) : this._lookup[key];
+      mod = this._serialize_mod({
+        altKey: mod === 'alt',
+        ctrlKey: mod === 'ctrl',
+        shiftKey: mod === 'shift',
+        metaKey: mod === 'meta'
+      });
+      if (this._mapping[code] == null) {
+        this._mapping[code] = {};
+      }
+      return this._mapping[code][mod] = {
+        input: inp != null,
+        event: func
+      };
+    };
+    Shortcuts.prototype._is_input = function(el) {
+      return (el instanceof HTMLTextAreaElement) || (el instanceof HTMLInputElement);
+    };
+    Shortcuts.prototype._serialize_mod = function(m) {
+      return 1 * m.altKey + 2 * m.ctrlKey + 4 * m.metaKey + 8 * m.shiftKey;
+    };
+    Shortcuts.prototype._interceptor = function(e) {
+      var mod, press;
+      if (e == null) {
+        e = window.event;
+      }
+      press = this._mapping[e.charCode || e.keyCode];
+      mod = this._serialize_mod(e);
+      if ((press != null) && (press[mod] != null) && this._is_input(e.target) === press[mod].input) {
+        return press[mod].event(e);
+      }
+    };
+    return Shortcuts;
+  })();
+  Tumblr = (function() {
+    function Tumblr() {
+      this.queuePost = __bind(this.queuePost, this);
+      this.cancelReblog = __bind(this.cancelReblog, this);
+      this.confirmReblog = __bind(this.confirmReblog, this);
+      this.sendReply = __bind(this.sendReply, this);
+      this.view = __bind(this.view, this);
+      this.like = __bind(this.like, this);
+      this.page = __bind(this.page, this);
+      this.reblog = __bind(this.reblog, this);
+    }
+    Tumblr.prototype._clickElement = function(elem, ctrl) {
+      var evt;
+      if (ctrl == null) {
+        ctrl = false;
+      }
+      if (elem == null) {
+        return;
+      }
+      evt = document.createEvent("MouseEvents");
+      evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, ctrl, false, false, false, 0, null);
+      return elem.dispatchEvent(evt);
+    };
+    Tumblr.prototype._changeSelected = function(elem, index) {
+      var evt;
+      if (elem == null) {
+        return;
+      }
+      elem.selectedIndex = index;
+      evt = document.createEvent("Event");
+      evt.initEvent('change', true, false);
+      return elem.dispatchEvent(evt);
+    };
+    Tumblr.prototype._getReblogLink = function(post_id) {
+      var a, controls, elem, links, _i, _len, _ref;
+      elem = $(post_id);
+      controls = elem.getElementsByClassName("post_controls")[0];
+      links = controls.getElementsByTagName("a");
+      for (_i = 0, _len = links.length; _i < _len; _i++) {
+        a = links[_i];
+        if ((_ref = a.href) != null ? _ref.match('reblog') : void 0) {
+          return a;
+        }
+      }
+    };
+    Tumblr.prototype.reblog = function(post_id, new_tab) {
+      if (new_tab == null) {
+        new_tab = false;
+      }
+      return this._clickElement(this._getReblogLink(post_id), new_tab);
+    };
+    Tumblr.prototype.page = function(post_id) {
+      var el, link;
+      el = this._getReblogLink(post_id);
+      link = decodeURIComponent(el.href.match(/redirect_to=.*/)[0].substring('redirect_to='.length));
+      return window.location.replace(link);
+    };
+    Tumblr.prototype.like = function(post_id) {
+      var like_id;
+      like_id = 'like_button_' + post_id.substring('post_'.length);
+      return this._clickElement($(like_id));
+    };
+    Tumblr.prototype.view = function(post_id) {
+      var permalink;
+      permalink = 'permalink_' + post_id.substring('view_'.length);
+      return this._clickElement($(permalink), true);
+    };
+    Tumblr.prototype.sendReply = function(elem) {
+      var reply_id;
+      reply_id = 'reply_button_' + elem.id.substring('reply_field_'.length);
+      return this._clickElement($(reply_id));
+    };
+    Tumblr.prototype.confirmReblog = function() {
+      return this._clickElement($('save_button'));
+    };
+    Tumblr.prototype.cancelReblog = function() {
+      return this._clickElement($('cancel_button'));
+    };
+    Tumblr.prototype.queuePost = function() {
+      return this._changeSelected($('post_state'), 1);
+    };
+    return Tumblr;
+  })();
+  curPost = function() {
+    var elem, pos, posts, _i, _len;
+    pos = document.body.scrollTop + 7;
+    posts = $("posts").childNodes;
+    for (_i = 0, _len = posts.length; _i < _len; _i++) {
+      elem = posts[_i];
+      if (hasClass(elem, 'post')) {
+        if (pos >= elem.offsetTop && pos <= elem.offsetTop + elem.offsetHeight) {
+          return elem.id;
+        }
+      }
+    }
+  };
+  tumblr = new Tumblr;
+  shortcuts = new Shortcuts;
+  loc = window.location.href.toLowerCase();
+  if (loc.indexOf('/dashboard') !== -1) {
+    shortcuts.add({
+      'l': function() {
+        return tumblr.like(curPost());
+      },
+      'r': function() {
+        return tumblr.reblog(curPost());
+      },
+      'v': function() {
+        return tumblr.view(curPost());
+      },
+      'p': function() {
+        return tumblr.page(curPost());
+      },
+      'alt+r': function() {
+        return tumblr.reblog(curPost(), true);
+      },
+      'ctrl+enter:input': function(e) {
+        return tumblr.sendReply(e.target);
+      }
+    });
+  } else if (loc.indexOf('/reblog/') !== -1) {
+    shortcuts.add({
+      'q': tumblr.queuePost,
+      'escape': tumblr.cancelReblog,
+      'ctrl+enter': tumblr.confirmReblog,
+      'ctrl+q': function() {
+        tumblr.queuePost();
+        return tumblr.confirmReblog();
+      }
+    });
+  }
+}).call(this);
