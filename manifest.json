@@ -7,7 +7,7 @@
         "128": "128.png"
     },
     "permissions": [
-        "http://tumblr.com/*", "http://www.tumblr.com/*"
+        "http://*.tumblr.com/*"
     ],
     "content_scripts": [
         {
