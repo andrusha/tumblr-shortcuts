@@ -8,6 +8,10 @@ class Shortcuts
         @_lookup = 
             enter: 13
             escape: 27
+            up: 38
+            left: 37
+            right: 39
+            down: 40
         window.addEventListener "keydown", @_interceptor
 
     add: (shortcut, func) ->
@@ -47,9 +51,14 @@ class Tumblr
     _clickElement: (elem, ctrl = false) ->
         return unless elem?
         
-        evt = document.createEvent("MouseEvents")
-        evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, ctrl, false, false, false, 0, null)
-        elem.dispatchEvent(evt)
+        evt = document.createEvent "MouseEvents"
+        evt.initMouseEvent "click", true, true, window, 0, 0, 0, 0, 0, ctrl, false, false, false, 0, null
+        elem.dispatchEvent evt
+
+    _pressKey: (key) ->
+        evt = document.createEvent "KeyboardEvent"
+        evt.initKeyboardEvent "keydown", true, true, null, key.charCodeAt(0), false, false, false, 0
+        document.dispatchEvent evt
 
     _changeSelected: (elem, index) ->
         return unless elem?
@@ -99,6 +108,12 @@ class Tumblr
         idx = if elem.selectedIndex < elem.length - 1 then elem.selectedIndex + 1 else 0
         @_changeSelected elem, idx
 
+    nextPage: => @_clickElement $('next_page_link')
+    prevPage: => @_clickElement $('previous_page_link')
+
+    nextPost: => @_pressKey 'J'
+    prevPost: => @_pressKey 'K'
+
 curPost = ->
     pos = document.body.scrollTop + 7 
     posts = $("posts").childNodes
@@ -119,6 +134,10 @@ if loc.indexOf('/dashboard') != -1
         'p':        -> tumblr.page curPost()
         'alt+r':    -> tumblr.reblog curPost(), true
         'ctrl+enter:input': (e) -> tumblr.sendReply e.target
+        'alt+right':    tumblr.nextPage
+        'alt+left':     tumblr.prevPage
+        'alt+up':       tumblr.prevPost
+        'alt+down':     tumblr.nextPost
 else if loc.indexOf('/reblog/') != -1
     shortcuts.add 
         'b':            tumblr.changeBlog
