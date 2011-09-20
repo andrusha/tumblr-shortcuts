@@ -5,7 +5,7 @@ all:
 	coffee --compile --lint tumblr_shortcuts.coffee
 
 	echo "Optimizing with Closure compiler"
-	closure --js tumblr_shortcuts.js --js_output_file tumblr_shortcuts.compiled.js --compilation_level ADVANCED_OPTIMIZATIONS
+	closure --js tumblr_shortcuts.js --js_output_file tumblr_shortcuts.compiled.js --compilation_level SIMPLE_OPTIMIZATIONS
 	mv tumblr_shortcuts.compiled.js tumblr_shortcuts.js
 
 	echo "Cleaning old version"
