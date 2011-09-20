@@ -20,8 +20,14 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 ## Legacy Tumblr shortcuts
 * j - next post
 * k - previous post
+* left arrow - previous page
+* right arrow - next page
 
 ## Changelog
+### ver 2.1
+* Bugfix
+* Alt + arrow keys
+
 ### ver 2.0
 * Extension got renamed
 * Complete rewrite of the source code
