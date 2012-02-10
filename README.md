@@ -24,7 +24,7 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 * right arrow - next page
 
 ## Changelog
-### ver 2.1
+### ver 2.2
 * Now Like functionality is provided by tumblr
 
 ### ver 2.1
