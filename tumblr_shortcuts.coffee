@@ -85,10 +85,6 @@ class Tumblr
         link = decodeURIComponent el.href.match(/redirect_to=.*/)[0].substring('redirect_to='.length)
         window.location.replace link
 
-    like: (post_id) =>
-        like_id = 'like_button_' + post_id.substring('post_'.length)
-        @_clickElement $(like_id)
-
     view: (post_id) =>
         permalink = 'permalink_' + post_id.substring('view_'.length)
         @_clickElement $(permalink), true
@@ -128,7 +124,6 @@ shortcuts = new Shortcuts
 loc  = window.location.href.toLowerCase()
 if loc.indexOf('/dashboard') != -1
     shortcuts.add 
-        'l':        -> tumblr.like curPost()
         'r':        -> tumblr.reblog curPost()
         'v':        -> tumblr.view curPost()
         'p':        -> tumblr.page curPost()
