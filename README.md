@@ -25,6 +25,9 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 
 ## Changelog
 ### ver 2.1
+* Now Like functionality is provided by tumblr
+
+### ver 2.1
 * Bugfix
 * Alt + arrow keys
 
