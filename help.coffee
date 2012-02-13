@@ -1,8 +1,16 @@
 class Help
     constructor: ->
+        @injected = false
+
         window.addEventListener "load", =>
-            @injectStyles()
-            @injectHTML()
+            @inject()
+
+    inject: ->
+        return if @injected
+
+        @injected = true
+        @injectStyles()
+        @injectHTML()
 
     injectStyles: =>
         style = document.createElement 'style'
@@ -122,4 +130,5 @@ class Help
         document.body.appendChild container
 
     toggle: =>
+        @inject()
         toggleClass $('tumblr_shortcuts_help'), 'hidden'
