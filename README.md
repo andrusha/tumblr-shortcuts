@@ -1,6 +1,9 @@
 This extension adds the new keyboard shortcuts to your Tumblr dashboard and reblog pages.
 
 ## Shortcuts 
+###Global:
+* F1 - show help
+
 ###Dashboard:
 * l - like
 * r - reblog
@@ -24,6 +27,9 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 * right arrow - next page
 
 ## Changelog
+### ver 2.3
+* Included "help" menu by pressing F1
+
 ### ver 2.2
 * Now Like functionality is provided by tumblr
 
