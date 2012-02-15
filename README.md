@@ -27,6 +27,9 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 * right arrow - next page
 
 ## Changelog
+### ver 2.6
+* Bugfix release
+
 ### ver 2.5
 * Missing style added to package
 

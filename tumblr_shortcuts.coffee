@@ -8,10 +8,10 @@ shortcuts.add
 loc = window.location.href.toLowerCase()
 if loc.indexOf('/dashboard') != -1
     shortcuts.add 
-        'r':        -> tumblr.reblog Tumblr.curPost()
-        'v':        -> tumblr.view Tumblr.curPost()
-        'p':        -> tumblr.page Tumblr.curPost()
-        'alt+r':    -> tumblr.reblog Tumblr.curPost(), true
+        'r':        -> tumblr.reblog tumblr.curPost()
+        'v':        -> tumblr.view tumblr.curPost()
+        'p':        -> tumblr.page tumblr.curPost()
+        'alt+r':    -> tumblr.reblog tumblr.curPost(), true
         'ctrl+enter:input': (e) -> tumblr.sendReply e.target
         'alt+right':    tumblr.nextPage
         'alt+left':     tumblr.prevPage
