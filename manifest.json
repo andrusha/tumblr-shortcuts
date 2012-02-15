@@ -1,7 +1,7 @@
 {
     "name": "Tumblr Shortcuts",
     "description": "Access Tumblr functions from the keyboard",
-    "version": "2.3",
+    "version": "2.4",
     "icons": {
         "48": "48.png",
         "128": "128.png"
@@ -12,7 +12,9 @@
     "content_scripts": [
         {
             "matches": ["http://*.tumblr.com/dashboard*", "http://*.tumblr.com/reblog*"],
-            "js": ["tumblr_shortcuts.js"]
+            "js": ["tumblr_shortcuts.js"],
+            "css": ["tumblr_shortcuts.css"],
+            "run_at": "document_start"
         }
     ]
 }

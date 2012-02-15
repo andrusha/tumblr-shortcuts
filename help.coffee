@@ -2,61 +2,22 @@ class Help
     constructor: ->
         @injected = false
 
-        window.addEventListener "load", =>
+        window.addEventListener "DOMContentLoaded", =>
             @inject()
 
     inject: ->
         return if @injected
 
         @injected = true
-        @injectStyles()
-        @injectHTML()
+        @_injectPopup()
+        @_injectButton()
 
-    injectStyles: =>
-        style = document.createElement 'style'
-        style.setAttribute 'type', 'text/css'
-        content = document.createTextNode """
-            #tumblr_shortcuts_help {
-                color: white;
-                cursor: pointer;
-            }
-            #tumblr_shortcuts_help.hidden {
-                display: none;
-            }
-            #tumblr_shortcuts_curtain {
-                position: fixed;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                background: black;
-                opacity: 0.3;
-                z-index: 10000;
-            }
-            #tumblr_shortcuts_popup {
-                position: fixed;
-                width: 400px;
-                top: 150px;
-                left: 50%;
-                margin-left: -200px;
-                background: black;
-                opacity: 0.8;
-                padding: 30px;
-                border-radius: 10px;
-                z-index: 20000;
-            }
-            #tumblr_shortcuts_popup h1, #tumblr_shortcuts_popup h2, #tumblr_shortcuts_popup p {
-                color: white;
-            }
-            #tumblr_shortcuts_popup table tr td:last {
-                padding-left: 10px;
-            }
-        """
+    toggle: (event) =>
+        event.preventDefault() if event?
+        @inject()
+        toggleClass $('tumblr_shortcuts_help'), 'hidden'
 
-        style.appendChild content
-        document.head.appendChild style
-
-    injectHTML: =>
+    _injectPopup: =>
         container = document.createElement 'div'
         container.setAttribute 'id', 'tumblr_shortcuts_help'
         container.setAttribute 'class', 'hidden'
@@ -128,7 +89,17 @@ class Help
 
         container.addEventListener 'click', @toggle
         document.body.appendChild container
+        
+    _injectButton: =>
+        container = document.createElement 'div'
+        container.setAttribute 'class', 'tab iconic'
 
-    toggle: =>
-        @inject()
-        toggleClass $('tumblr_shortcuts_help'), 'hidden'
+        button = document.createElement 'a'
+        button.setAttribute 'id', 'tumblr_shortcuts_button'
+        button.setAttribute 'title', 'Shortcuts'
+        button.appendChild document.createTextNode('Shortcuts')
+        button.addEventListener 'click', @toggle
+
+        container.appendChild button
+        $('user_tools').insertBefore container, $('preferences_button')
+
