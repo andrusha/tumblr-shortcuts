@@ -14,9 +14,9 @@ release: dev
 
 	echo "Compressing extension"
 	cd $(RELEASE_DIR) ; \
-	zip tumblr_shortcuts.zip tumblr_shortcuts.js manifest.json 48.png 128.png
+	zip tumblr_shortcuts.zip tumblr_shortcuts.js tumblr_shortcuts.css manifest.json 48.png 128.png
 
 
 dev:
 	echo "Compiling coffee script"
-	coffee --compile --lint --join $(RELEASE_DIR)/tumblr_shortcuts.js lib.coffee shortcuts.coffee tumblr.coffee help.coffee tumblr_shortcuts.coffee
+	coffee --compile --lint --join $(RELEASE_DIR)/tumblr_shortcuts.js lib.coffee shortcuts.coffee tumblr.coffee help.coffee tumblr_shortcuts.coffee 
