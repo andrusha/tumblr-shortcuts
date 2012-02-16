@@ -1,9 +1,14 @@
 class Tumblr
     _clickElement: (elem, ctrl = false) ->
         return unless elem?
+
+        meta = false
+        if ctrl and window.navigator.appVersion.indexOf('Mac OS') != -1
+            meta = true
+            ctrl = false
         
         evt = document.createEvent "MouseEvents"
-        evt.initMouseEvent "click", true, true, window, 0, 0, 0, 0, 0, ctrl, false, false, false, 0, null
+        evt.initMouseEvent "click", true, true, window, 0, 0, 0, 0, 0, ctrl, false, false, meta, 0, null
         elem.dispatchEvent evt
 
     _pressKey: (key) ->
