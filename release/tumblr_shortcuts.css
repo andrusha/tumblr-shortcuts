@@ -42,10 +42,22 @@
 
 #tumblr_shortcuts_popup h1, #tumblr_shortcuts_popup h2, #tumblr_shortcuts_popup p {
     color: white;
+    font-weight: 300;
 }
 
-#tumblr_shortcuts_popup table tr td {
-    padding-right: 10px;
+#tumblr_shortcuts_popup h2 {
+    margin-bottom: -15px;
+}
+
+#tumblr_shortcuts_popup table tr td:first-child {
+    color: #DD0;
+    text-align: right;
+    padding-right: 5px;
+}
+
+#tumblr_shortcuts_popup table tr td:first-child:after {
+    content: ' :';
+    color: white;
 }
 
 #tumblr_shortcuts_button {

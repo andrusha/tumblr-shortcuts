@@ -27,6 +27,9 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 * right arrow - next page
 
 ## Changelog
+### ver 2.8
+* A bit prettier help page
+
 ### ver 2.7
 * Fixing reblog in a new tab on Mac OS
 

@@ -46,7 +46,7 @@ class Help
                             <td>alt&nbsp;+&nbsp;r</td><td>reblog in a new tab</td>
                         </tr>
                         <tr>
-                            <td>v</td><td>view post in a new tab (without loosing focus)</td>
+                            <td>v</td><td>view post in a new tab (without loosing afocus)</td>
                         </tr>
                         <tr>
                             <td>p</td><td>open current page</td>
