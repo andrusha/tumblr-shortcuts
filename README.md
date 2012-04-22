@@ -6,8 +6,8 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 
 ###Dashboard:
 * l - like
-* r - reblog
-* alt + r - reblog in a new tab
+* r - open reblog page
+* alt + r - reblog without opening a reblog page (ajax)
 * v - view post in a new tab (without loosing focus)
 * p - open current page (handy when you have scrolled a lot and browsing becomes laggy)
 * ctrl + enter (while writing a reply) - send reply
@@ -27,6 +27,9 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 * right arrow - next page
 
 ## Changelog
+### ver 2.9
+* Now `alt + r` reblogs without opening a new tab
+
 ### ver 2.8
 * A bit prettier help page
 

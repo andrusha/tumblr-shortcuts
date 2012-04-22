@@ -40,10 +40,10 @@ class Help
                             <td>l</td><td>like</td>
                         </tr>
                         <tr>
-                            <td>r</td><td>reblog</td>
+                            <td>r</td><td>open reblog page</td>
                         </tr>
                         <tr>
-                            <td>alt&nbsp;+&nbsp;r</td><td>reblog in a new tab</td>
+                            <td>alt&nbsp;+&nbsp;r</td><td>reblog without opening a page(ajax)</td>
                         </tr>
                         <tr>
                             <td>v</td><td>view post in a new tab (without loosing afocus)</td>

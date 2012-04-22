@@ -1,5 +1,5 @@
 class Tumblr
-    _clickElement: (elem, ctrl = false) ->
+    _clickElement: (elem, ctrl = false, alt = false) ->
         return unless elem?
 
         meta = false
@@ -8,7 +8,7 @@ class Tumblr
             ctrl = false
         
         evt = document.createEvent "MouseEvents"
-        evt.initMouseEvent "click", true, true, window, 0, 0, 0, 0, 0, ctrl, false, false, meta, 0, null
+        evt.initMouseEvent "click", true, true, window, 0, 0, 0, 0, 0, ctrl, alt, false, meta, 0, null
         elem.dispatchEvent evt
 
     _pressKey: (key) ->
@@ -33,8 +33,8 @@ class Tumblr
             if a.href?.match 'reblog'
                 return a
 
-    reblog: (post_id, new_tab = false) =>
-        @_clickElement @_getReblogLink(post_id), new_tab
+    reblog: (post_id, ajax = false) =>
+        @_clickElement @_getReblogLink(post_id), false, ajax
 
     page: (post_id) =>
         el = @_getReblogLink post_id
