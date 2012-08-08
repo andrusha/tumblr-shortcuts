@@ -27,6 +27,9 @@ This extension adds the new keyboard shortcuts to your Tumblr dashboard and rebl
 * right arrow - next page
 
 ## Changelog
+### ver 2.9.1
+* Compatability with Chrome 21
+
 ### ver 2.9
 * Now `alt + r` reblogs without opening a new tab
 

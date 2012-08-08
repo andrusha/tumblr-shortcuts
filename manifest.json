@@ -1,7 +1,8 @@
 {
+    "manifest_version": 2,
     "name": "Tumblr Shortcuts",
     "description": "Access Tumblr functions from the keyboard",
-    "version": "2.9",
+    "version": "2.9.1",
     "icons": {
         "48": "48.png",
         "128": "128.png"

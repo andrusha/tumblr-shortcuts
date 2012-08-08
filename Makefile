@@ -6,7 +6,7 @@ all: dev
 
 release: dev
 	echo "Optimizing with Closure compiler"
-	closure --js $(RELEASE_DIR)/tumblr_shortcuts.js --js_output_file $(RELEASE_DIR)/tumblr_shortcuts.compiled.js --compilation_level SIMPLE_OPTIMIZATIONS
+	closure-compiler --js $(RELEASE_DIR)/tumblr_shortcuts.js --js_output_file $(RELEASE_DIR)/tumblr_shortcuts.compiled.js --compilation_level SIMPLE_OPTIMIZATIONS
 	mv $(RELEASE_DIR)/tumblr_shortcuts.compiled.js $(RELEASE_DIR)/tumblr_shortcuts.js
 
 	echo "Cleaning old version"
